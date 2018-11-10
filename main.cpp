@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <bits/stdc++.h>
-#include "Collision.cpp"
+#include "collusion.h"
 
 using namespace sf;
 using namespace std;
