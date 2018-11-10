@@ -52,7 +52,7 @@ int  main(){
     t2.loadFromFile("farback.gif");
     t3.loadFromFile("shot.png");
     t4.loadFromFile("ene.png");
-    t5.loadFromFile("20376860.jpg");
+    t5.loadFromFile("203768600.jpg");
     t6.loadFromFile("starfield.png");
     t7.loadFromFile("Explosion.png");
     t8.loadFromFile("Red Space.bmp");
