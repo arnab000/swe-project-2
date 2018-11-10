@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SFML" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/SFML" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libFLAC.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libfreetype.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libogg.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libopenal32.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbis.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbisenc.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbisfile.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-audio-d.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-graphics-d.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-network-d.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-window-d.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-system-d.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-main-d.a" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/SFML" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libFLAC.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libfreetype.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libogg.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libopenal32.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbis.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbisenc.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libvorbisfile.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-audio.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-graphics.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-network.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-window.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-system.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SFML/lib/libsfml-main.a" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add option="-DSFML_STATIC" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/SFML/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="C:/Program Files (x86)/CodeBlocks/SFML/lib" />
+		</Linker>
+		<Unit filename="collision.h" />
+		<Unit filename="collusion.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main3.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
