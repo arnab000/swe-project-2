@@ -11,6 +11,15 @@ struct enemy{
     int x=0, y=0;
 } ee[100];
 
+string title(int life, int counte){
+    string title1="  Shoot Them All             Life-Remaining :  ";
+    string title2="                                                    SCORE : ";
+    title1.append(to_string(life));
+    title2.append(to_string(counte));
+    title2.append(" ");
+    title1.append(title2);
+    return title1;
+}
 
 int randnum(struct enemy ee[],int t, char d){
     int v,q=1;
@@ -33,13 +42,10 @@ int randnum(struct enemy ee[],int t, char d){
     return v;
 }
 
-
 int  main(){
-
     ContextSettings settings;
     settings.antialiasingLevel = 8;
-    RenderWindow window(VideoMode(1080,720),"Shoot Them All");
-
+    RenderWindow window(VideoMode(1080,720),"  Shoot Them All");
     window.setVerticalSyncEnabled(true);
     Texture t1,t2,t3,t4,t5,t6,t7,t8;
     t1.loadFromFile("bgod.png");
@@ -84,7 +90,7 @@ int  main(){
     exitText.setFillColor(Color::White);
 
     int menuSelection=0,pauseSelection=0;
-    int x=80,y=360,life=4,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,counte=0;
+    int x=80,y=360,life=4,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,counte=0,hcounte=0;
     gm.setScale(1.08f,.9536f);
     background.setScale(1.0f,1.5f);
     sp2.setScale(1.0f,1.2f);
@@ -108,23 +114,17 @@ int  main(){
                     spacePressed=false;
         }
         if(!life){
-            float gameover=gameoverclock.getElapsedTime().asSeconds();
             window.clear();
-            string title1="Shoot Them All!!              Life-Remaining :  ";
-            string title2="                                                    SCORE : ";
-            title1.append(to_string(life));
-            title2.append(to_string(counte));
-            title2.append(" ");
-            title1.append(title2);
-            window.setTitle(title1);
             window.draw(gm);
+            window.setTitle(title(life,counte));
             window.display();
-            if(gameover >= 10){
-                 gameoverclock.restart();
-                 menu=true;
-                 pause1=false;
-                 life=4;
-            }
+            sleep(milliseconds(2000));
+            menu=true;
+            pause1=false;
+            life=4;
+            if(counte > hcounte)
+                hcounte=counte;
+            counte=0;
         }
 
         if(pause1){
@@ -185,6 +185,7 @@ int  main(){
             }
 
             window.clear();
+            window.setTitle("  Shoot Them All");
             window.draw(menui);
             window.draw(startText);
             window.draw(exitText);
@@ -222,13 +223,7 @@ int  main(){
             window.draw(sp2);
             sp2.setPosition(z+1600,0);
             window.draw(sp2);
-            string title1="Shoot Them All!!              Life-Remaining :  ";
-            string title2="                                                    SCORE : ";
-            title1.append(to_string(life));
-            title2.append(to_string(counte));
-            title2.append(" ");
-            title1.append(title2);
-            window.setTitle(title1);
+            window.setTitle(title(life,counte));
 
             for(; ec1 < 8; ec1++){
                 ee[ec1].x=randnum(ee,ec1,'x');
@@ -268,7 +263,6 @@ int  main(){
                 }
                 if(Collision::PixelPerfectTest(eh,bship)){
                     life--;
-                    counte=0;
                     ex1=ee[k].x;
                     ex2=ee[k].y;
                     explosion1=true;
@@ -310,7 +304,7 @@ int  main(){
             window.display();
         }
     }
+    printf("Your Highest Score Is : %d",hcounte);
     window.close();
-  //  printf("Your Score Is : ",counte);
     return 0;
 }
