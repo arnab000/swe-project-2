@@ -44,7 +44,7 @@ int  main()
 {
 
     ContextSettings settings;
-    settings.antialiasingLevel = 8;
+    settings.antialiasingLevel = 7;
     RenderWindow window(VideoMode(1080,720),"battleship shooting");
 
     window.setVerticalSyncEnabled(true);
