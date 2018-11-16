@@ -10,6 +10,9 @@ using namespace std;
 struct enemy{
     int x=0, y=0;
 } ee[100];
+struct enemybullet{
+    int x=0,y=0;
+}eeb[100];
 
 string title(int life, int counte){
     string title1="  Shoot Them All             Life-Remaining :  ";
@@ -47,22 +50,24 @@ int  main(){
     settings.antialiasingLevel = 8;
     RenderWindow window(VideoMode(1080,720),"  Shoot Them All");
     window.setVerticalSyncEnabled(true);
-    Texture t1,t2,t3,t4,t5,t6,t7,t8;
+    Texture t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
     t1.loadFromFile("bgod.png");
     t2.loadFromFile("farback.gif");
     t3.loadFromFile("shot.png");
     t4.loadFromFile("ene.png");
-    t5.loadFromFile("203768600.jpg");
+    t5.loadFromFile("20376860.jpg");
     t6.loadFromFile("starfield.png");
     t7.loadFromFile("Explosion.png");
     t8.loadFromFile("Red Space.bmp");
+    t9.loadFromFile("bullet1.png");
+    t10.loadFromFile("bullet1.png");
 
     t1.setSmooth(true);
     t2.setSmooth(true);
     t3.setSmooth(true);
     t4.setSmooth(true);
-    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8);
-    bool isfire=false, spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false;
+    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),eb(t9),cb(t10);
+    bool isfire=false, spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false;
 
     Clock clock1, clock2,gameoverclock,clock3;
     SoundBuffer gunshot, explose;
@@ -72,6 +77,7 @@ int  main(){
 
     vector<Sprite>bullets;
     vector<Sprite>explosions;
+
     vector<int>h;
 
     Font menuFont;
@@ -90,15 +96,20 @@ int  main(){
     exitText.setFillColor(Color::White);
 
     int menuSelection=0,pauseSelection=0;
-    int x=80,y=360,life=4,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,counte=0,hcounte=0;
+    int x=80,y=360,life=4,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,counte=0,hcounte=0,bul1,bul2;
     gm.setScale(1.08f,.9536f);
     background.setScale(1.0f,1.5f);
     sp2.setScale(1.0f,1.2f);
     bship.setOrigin(48,36);
+
     bullet.setOrigin(12.5,4);
     bullet.setScale(.7f,.7f);
+    eb.setScale(.4f,.4f);
+    cb.setScale(.4f,.4f);
+
     bship.setScale(1.6f,1.6f);
     eh.setScale(0.2f,0.2f);
+
     gm.setScale(1.2f,1.0f);
 
     while(window.isOpen()){
@@ -118,7 +129,12 @@ int  main(){
             window.draw(gm);
             window.setTitle(title(life,counte));
             window.display();
-            sleep(milliseconds(2000));
+            sleep(milliseconds(3000));
+            explosion=false;
+            explosion2=false;
+            explosion2=false;
+            ec1=1;
+
             menu=true;
             pause1=false;
             life=4;
@@ -198,7 +214,7 @@ int  main(){
                 x=x-10;
             if(Keyboard::isKeyPressed(Keyboard::Down) && y<=660)
                 y=y+10;
-            if (Keyboard::isKeyPressed(Keyboard::Right) && x<=960)
+            if ( Keyboard::isKeyPressed(Keyboard::Right) && x<=960)
                 x=x+10;
             if (Keyboard::isKeyPressed(Keyboard::Escape))
                 pause1=true;
@@ -225,30 +241,59 @@ int  main(){
             window.draw(sp2);
             window.setTitle(title(life,counte));
 
-            for(; ec1 < 8; ec1++){
+            for(; ec1 < 5; ec1++){
                 ee[ec1].x=randnum(ee,ec1,'x');
                 ee[ec1].y=randnum(ee,ec1,'y');
+                eeb[ec1].x=ee[ec1].x;
+                eeb[ec1].y=ee[ec1].y;
+
             }
-            for(ec2=1; ec2 <8; ec2++){
-                ee[ec2].x-=3;
-                if(ee[ec2].x<-29){
-                    ee[ec2].x=randnum(ee,8,'x');
-                    ee[ec2].y=randnum(ee,8,'y');
+            for(ec2=1; ec2 <5; ec2++){
+                ee[ec2].x-=5;
+                if(eeb[ec2].x>1000 || ee[ec2].x<-20)
+                    eeb[ec2].x-=5;
+                else
+                    eeb[ec2].x-=10;
+
+                if(ee[ec2].x<-50){
+                    ee[ec2].x=randnum(ee,5,'x');
+                    ee[ec2].y=randnum(ee,5,'y');
+                    eeb[ec2].x=ee[ec2].x;
+                    eeb[ec2].y=ee[ec2].y;
+                }
+                if(eeb[ec2].x<-90)
+                {
+                    eeb[ec2].x=ee[ec2].x;
+                    eeb[ec2].y=ee[ec2].y;
                 }
             }
-            for(int k=1; k < 8; k++){
+            for(int k=1; k < 5; k++){
                 eh.setPosition(ee[k].x,ee[k].y);
+                eb.setPosition(eeb[k].x-10,eeb[k].y+40);
+                cb.setPosition(eeb[k].x-10,eeb[k].y+60);
+
+
+
                 window.draw(eh);
+                window.draw(eb);
+                window.draw(cb);
+
+
+
+
+
+
                 if(isfire==true){
                     bullet.setPosition(x,y);
                     bullets.push_back(bullet);
                     isfire=false;
                 }
+
                 for(int i=0; i<bullets.size(); i++){
                     window.draw(bullets[i]);
                     bullets[i].move(Vector2f(2,-0));
                     auto b = bullets[i].getPosition();
-                    if(b.x >1080)
+                    if(b.x >1080 )
                         bullets.erase(bullets.begin()+i);
                     if(Collision::PixelPerfectTest(eh,bullets[i])){
                         counte++;
@@ -261,6 +306,17 @@ int  main(){
                         ee[k].y=randnum(ee,8,'y');
                     }
                 }
+                 if(Collision::PixelPerfectTest(eb,bship)||Collision::PixelPerfectTest(cb,bship))
+                 {
+                     life--;
+                    bul1=eeb[k].x;
+                    bul2=eeb[k].y;
+                    explosion2=true;
+                    exp.play();
+                    eeb[k].x=ee[k].x;
+                    eeb[k].y=ee[k].y;
+                    x=80,y=360;
+                 }
                 if(Collision::PixelPerfectTest(eh,bship)){
                     life--;
                     ex1=ee[k].x;
@@ -288,12 +344,22 @@ int  main(){
                 h.push_back(1);
                 explosion1=false;
             }
+            if(explosion2==true){
+                sh.setPosition(bul1,bul2);
+                explosions.push_back(sh);
+                h.push_back(1);
+                explosion2=false;
+            }
             for(int d=0; d<explosions.size(); d++){
                 explosions[d].setTextureRect(IntRect(h[d]*96,0,96,96));
                 window.draw(explosions[d]);
                 if(time >=0.085 && h[d]<13){
                     h[d]++;
                     clock1.restart();
+                }
+                if(h[d]<13 && life==0)
+                {
+                    h[d]=14;
                 }
             }
 
