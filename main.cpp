@@ -7,8 +7,7 @@
 using namespace sf;
 using namespace std;
 
-struct enemy
-{
+struct enemy{
     int x=0, y=0;
 } ee[100];
 struct enemybullet
