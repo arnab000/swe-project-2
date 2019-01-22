@@ -61,7 +61,7 @@ int  main()
     RenderWindow window(VideoMode(1080,720),"  Shoot Them All");
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
-    Texture t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,bossh,rin,tb,aid;
+    Texture t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,bossh,rin,tb,aid,tl;
     t1.loadFromFile("bgod.png");
     t2.loadFromFile("farback.gif");
     t3.loadFromFile("shot.png");
@@ -70,6 +70,7 @@ int  main()
     t6.loadFromFile("starfield.png");
     t7.loadFromFile("Explosion.png");
     t8.loadFromFile("Red Space.bmp");
+    tl.loadFromFile("Red Space.bmp");
     t9.loadFromFile("bullet1.png");
     t10.loadFromFile("bullet1.png");
     t11.loadFromFile("hehe1.png");
@@ -84,7 +85,7 @@ int  main()
     t4.setSmooth(true);
     t11.setSmooth(true);
     t12.setSmooth(true);
-    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),eb(t9),cb(t10),boss(t11),bosshead(bossh),ring(rin),textbox(tb),aid1(aid);
+    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),menuj(tl),eb(t9),cb(t10),boss(t11),bosshead(bossh),ring(rin),textbox(tb),aid1(aid);
     bool spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false,explosion3=false,explosion4=false,bigboss=false,explosion5=false,explosion6=false,ins=false,fai=false;
 
     Clock clock1, clock2,gameoverclock,clock3,clock4,bossclock,bossbullet,bosslock,aidclock;
@@ -107,6 +108,7 @@ int  main()
     Text xText("Use up,down,left arrows to control your spaceship", menuFont, 25);
     Text yText("Make one hundred and fifty kills to reach Kratos", menuFont, 25);
     Text zText("Make sure to hit Kratos fifty times to end his life ", menuFont, 25);
+    Text S("SHOOT THEM ALL",menuFont,80);
     Text winText1("YOU WIN", menuFont, 50);
     Text winText2("WELL DONE", menuFont, 50);
     vText.setPosition(50,260);
@@ -131,7 +133,7 @@ int  main()
     lifeframe.setFillColor(Color::Transparent);
 
     int menuSelection=0,pauseSelection=0;
-    int life=10,bosslife=50,mssg=1,z=1,ec1=1,ec2,n,gn=1,r,j=0,ex1,ex2,counte=0,hcounte=0,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4;
+    int life=10,bosslife=50,anib=50,anibc=70,mssg=1,z=1,ec1=1,ec2,n,gn=1,r,j=0,ex1,ex2,counte=0,hcounte=0,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4;
     float x=80,y=360,bx=1100,by=360;
     gm.setScale(1.08f,.9536f);
     aid1.setScale(.1f,.1f);
@@ -264,19 +266,44 @@ int  main()
                 startText.setFillColor(Color::Black);
                 insText.setFillColor(Color::White);
             }
-
+             if(j>=3)
+                j=0;
             window.clear();
             window.setTitle("  Shoot Them All");
             window.draw(menui);
             window.draw(startText);
             window.draw(insText);
             window.draw(exitText);
+            bship.setTextureRect(IntRect(j*96,106*2,96,72));
+            S.setPosition(130,150);
+            bship.setPosition(anibc,280);
+            bullet.setPosition(anib,273);
+            window.draw(S);
+            if(anib <= 920){
+               menuj.setTextureRect(IntRect(anib,150,920-anib,90));
+               menuj.setPosition(anib,150);
+               window.draw(menuj);
+            }
+            window.draw(bullet);
+            RectangleShape line;
+            if(anib <= 1080)
+               anib+=2;
+            else{
+                 if(anibc < 1200)
+                     anibc+=5;
+            }
+            window.draw(bship);
             window.display();
+
+            if(time4>0.09){
+                j++;
+                clock2.restart();
+            }
         }
         if(life==0){
             window.clear();
             bigboss=false;
-            life=10,bosslife=50,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4,mssg=1;
+            life=10,bosslife=50,anib=50,anibc=70,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4,mssg=1;
             x=80,y=360,bx=1100,by=360,gn=1;
             h.clear();
             bb.clear();
@@ -407,7 +434,7 @@ int  main()
                             bullets.erase(bullets.begin()+i);
                             ee[k].x=randnum(ee,7,'x');
                             ee[k].y=randnum(ee,7,'y');
-                             if(counte%10==0){
+                             if(counte%30==0){
                               aid1.setPosition(n,r);
                                aidclock.restart();
                              }
@@ -424,7 +451,7 @@ int  main()
                             bullets.erase(bullets.begin()+i);
                             ab[k].x=ee[k].x+220;
                             ab[k].y=ee[k].y;
-                            if(counte%10==0){
+                            if(counte%30==0){
                               aid1.setPosition(he,hehe);
                               aidclock.restart();
                             }
@@ -720,7 +747,7 @@ int  main()
                     h[u]=14;
                 }
             }
-            if(counte>=20){
+            if(counte>=150){
                 bigboss=true;
                 ec1=1,z=1;
             }
