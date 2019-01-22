@@ -322,7 +322,7 @@ int  main()
             window.draw(gm);
 
             window.display();
-            sleep(milliseconds(300));
+            sleep(milliseconds(1000));
             }
              else if (fai==true)
                 fai=false;
@@ -376,10 +376,10 @@ int  main()
                     ab[ec1].y=ee[ec1].y;
                 }
                 for(ec2=1; ec2 < 7 ; ec2++){
-                    ee[ec2].x-=5;
-                    ab[ec2].x-=5;
+                    ee[ec2].x-=6;
+                    ab[ec2].x-=6;
                     if(eeb[ec2].x>1000 || ee[ec2].x<-20)
-                        eeb[ec2].x-=5;
+                        eeb[ec2].x-=6;
                     else
                         eeb[ec2].x-=15;
                     if(ee[ec2].x<-400){
