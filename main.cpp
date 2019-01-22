@@ -41,10 +41,10 @@ int randnum(struct enemy ee[],int t, char d)
             v=rand()%600;
         for(q=1; q < t; q++)
         {
-            if(abs(ee[q].x-v) <= 300 && d=='x'){
+            if(abs(ee[q].x-v) <= 200 && d=='x'){
                 break;
             }
-            else if(abs(ee[q].y-v) <= 100&& d=='y'){
+            else if(abs(ee[q].y-v) <= 70&& d=='y'){
                 break;
             }
         }
@@ -61,7 +61,7 @@ int  main()
     RenderWindow window(VideoMode(1080,720),"  Shoot Them All");
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
-    Texture t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,bossh,rin,tb;
+    Texture t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,bossh,rin,tb,aid;
     t1.loadFromFile("bgod.png");
     t2.loadFromFile("farback.gif");
     t3.loadFromFile("shot.png");
@@ -76,6 +76,7 @@ int  main()
     bossh.loadFromFile("head_sheet.png");
     rin.loadFromFile("ring.png");
     tb.loadFromFile("textbox.png");
+    aid.loadFromFile("aid.png");
 
     t1.setSmooth(true);
     t2.setSmooth(true);
@@ -83,8 +84,8 @@ int  main()
     t4.setSmooth(true);
     t11.setSmooth(true);
     t12.setSmooth(true);
-    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),eb(t9),cb(t10),boss(t11),bosshead(bossh),ring(rin),textbox(tb);
-    bool spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false,explosion3=false,explosion4=false,bigboss=false,explosion5=false,explosion6=false,ins=false;
+    Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),eb(t9),cb(t10),boss(t11),bosshead(bossh),ring(rin),textbox(tb),aid1(aid);
+    bool spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false,explosion3=false,explosion4=false,bigboss=false,explosion5=false,explosion6=false,ins=false,fai=false;
 
     Clock clock1, clock2,gameoverclock,clock3,clock4,bossclock,bossbullet,bosslock;
     SoundBuffer gunshot, explose;
@@ -106,6 +107,8 @@ int  main()
     Text xText("Use up,down,left arrows to control your spaceship", menuFont, 25);
     Text yText("Make one hundred and fifty kills to reach Kratos", menuFont, 25);
     Text zText("Make sure to hit Kratos fifty times to end his life ", menuFont, 25);
+    Text winText1("YOU WIN", menuFont, 50);
+    Text winText2("WELL DONE", menuFont, 50);
     vText.setPosition(50,260);
     xText.setPosition(50,320);
     yText.setPosition(50,380);
@@ -115,6 +118,8 @@ int  main()
     exitText.setPosition(350,440);
     pauseText1.setPosition(350,320);
     pauseText2.setPosition(350,380);
+    winText1.setPosition(370,320);
+    winText2.setPosition(350,380);
 
     startText.setFillColor(Color::White);
     exitText.setFillColor(Color::White);
@@ -129,19 +134,21 @@ int  main()
     int life=10,bosslife=50,mssg=1,z=1,ec1=1,ec2,n,gn=1,r,j=0,ex1,ex2,counte=0,hcounte=0,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4;
     float x=80,y=360,bx=1100,by=360;
     gm.setScale(1.08f,.9536f);
+    aid1.setScale(.1f,.1f);
     background.setScale(1.0f,1.5f);
     sp2.setScale(1.0f,1.2f);
     bship.setOrigin(48,36);
     bullet.setOrigin(12.5,4);
-    bullet.setScale(.7f,.7f);
+    bullet.setScale(.5f,.5f);
+    aid1.setPosition(-1111,-111);
     textbox.setScale(.4f,.15f);
-    eb.setScale(.4f,.4f);
-    cb.setScale(.4f,.4f);
+    eb.setScale(.3f,.3f);
+    cb.setScale(.3f,.3f);
     boss.setScale(0.7f,0.7f);
     bosshead.setOrigin(64,64);
     ring.setOrigin(128,128);
-    bship.setScale(1.6f,1.6f);
-    eh.setScale(0.2f,0.2f);
+    bship.setScale(1.2f,1.2f);
+    eh.setScale(0.15f,0.15f);
     gm.setScale(1.2f,1.0f);
     vector<Sprite>bullets;
     vector<Sprite>explosions;
@@ -267,8 +274,8 @@ int  main()
         if(life==0){
             window.clear();
             bigboss=false;
-            life=10,bosslife=50,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4;
-            x=80,y=360,bx=1100,by=360;
+            life=10,bosslife=50,z=1,ec1=1,ec2,n,r,j=0,ex1,ex2,bul1,bul2,dada=0,he,hehe,XD,XD1,q=0,a=0,b=0,c=0,d=1,lock=0,ss1,ss2,ss3,ss4,mssg=1;
+            x=80,y=360,bx=1100,by=360,gn=1;
             h.clear();
             bb.clear();
             bullets.clear();
@@ -276,15 +283,21 @@ int  main()
             cc.clear();
             dir.clear();
             slope.clear();
+            aid1.setPosition(-1111,-111);
             menuSelection=0,pauseSelection=0;
             window.setTitle(title(life,counte));
             spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false,explosion3=false,explosion4=false,bigboss=false,explosion5=false,explosion6=false;
             if(counte > hcounte)
                 hcounte=counte;
             counte=0;
+            if(fai=false){
             window.draw(gm);
+
             window.display();
             sleep(milliseconds(300));
+            }
+             else if (fai=true)
+                fai=false;
         }
         if(menu==false && pause1==false && life > 0 && !ins){
             if(Keyboard::isKeyPressed(Keyboard::Up) && y >=80 )
@@ -356,15 +369,22 @@ int  main()
                         ab[ec2].y=ee[ec2].y;
                     }
                 }
+               // window.draw(aid1);
+                // if(Collision::PixelPerfectTest(aid1,bship)){
+                      //  life++;
+                       // aid1.setPosition(-1111,111);
+
+                    //}
                 for(int k=1; k < 5; k++){
                     eh.setPosition(ee[k].x,ee[k].y);
-                    eb.setPosition(eeb[k].x-10,eeb[k].y+40);
-                    cb.setPosition(eeb[k].x-10,eeb[k].y+60);
+                    eb.setPosition(eeb[k].x-10,eeb[k].y+30);
+                    cb.setPosition(eeb[k].x-10,eeb[k].y+41);
                     window.draw(eh);
                     window.draw(eb);
                     window.draw(cb);
                     boss.setPosition(ab[k].x,ab[k].y+0);
                     window.draw(boss);
+
                     for(int i=0; i<bullets.size(); i++){
                         window.draw(bullets[i]);
                         bullets[i].move(Vector2f(2,0));
@@ -380,6 +400,11 @@ int  main()
                             bullets.erase(bullets.begin()+i);
                             ee[k].x=randnum(ee,5,'x');
                             ee[k].y=randnum(ee,5,'y');
+                             if(counte%10==0){
+                              aid1.setPosition(n,r);
+                             }
+
+
                         }
 
                         else if(Collision::PixelPerfectTest(boss,bullets[i]) ){
@@ -391,6 +416,11 @@ int  main()
                             bullets.erase(bullets.begin()+i);
                             ab[k].x=ee[k].x+250;
                             ab[k].y=ee[k].y;
+                            if(counte%10==0){
+                              aid1.setPosition(he,hehe);
+                            }
+
+
                         }
                     }
                     if(Collision::PixelPerfectTest(eb,bship)||Collision::PixelPerfectTest(cb,bship)){
@@ -468,13 +498,16 @@ int  main()
                         bullets.erase(bullets.begin()+i);
                         bosslife--;
                         if(bosslife == 0){
-                             window.draw(gm);
+                             window.draw(menui);
+                             window.draw(winText1);
+                             window.draw(winText2);
                              window.display();
                              if(counte > hcounte)
                                  hcounte=counte;
                              counte=0;
-                             sleep(milliseconds(300));
-                             window.close();
+                             sleep(milliseconds(2000));
+                             life=0;
+                             menu=true;
                         }
                     }
                     if(Collision::PixelPerfectTest(ring,bullets[i]) ){
@@ -610,6 +643,7 @@ int  main()
 
             }
 
+
             lifeframe.setPosition(x-35, y-65);
             mainlife.setPosition(x-35, y-65);
             mainlife.setSize(sf::Vector2f(life*10, 5));
@@ -676,7 +710,7 @@ int  main()
                     h[u]=14;
                 }
             }
-            if(counte>=40){
+            if(counte>=20){
                 bigboss=true;
                 ec1=1,z=1;
             }
