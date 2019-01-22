@@ -36,15 +36,15 @@ int randnum(struct enemy ee[],int t, char d)
     while(1)
     {
         if(d=='x')
-            v=rand()%1600+1400;
+            v=rand()%2400+1400;
         else if(d=='y')
-            v=rand()%600;
+            v=rand()%650;
         for(q=1; q < t; q++)
         {
-            if(abs(ee[q].x-v) <= 200 && d=='x'){
+            if(abs(ee[q].x-v) <= 250 && d=='x'){
                 break;
             }
-            else if(abs(ee[q].y-v) <= 70&& d=='y'){
+            else if(abs(ee[q].y-v) <=70&& d=='y'){
                 break;
             }
         }
@@ -87,7 +87,7 @@ int  main()
     Sprite background(t2),bship(t1),bullet(t3),eh(t4),gm(t5),sp2(t6),sh(t7),menui(t8),eb(t9),cb(t10),boss(t11),bosshead(bossh),ring(rin),textbox(tb),aid1(aid);
     bool spacePressed=false,explosion=false,explosion1=false,menu=true,pause1=false,explosion2=false,explosion3=false,explosion4=false,bigboss=false,explosion5=false,explosion6=false,ins=false,fai=false;
 
-    Clock clock1, clock2,gameoverclock,clock3,clock4,bossclock,bossbullet,bosslock;
+    Clock clock1, clock2,gameoverclock,clock3,clock4,bossclock,bossbullet,bosslock,aidclock;
     SoundBuffer gunshot, explose;
     gunshot.loadFromFile("gunshot.wav");
     explose.loadFromFile("explosion.wav");
@@ -144,7 +144,7 @@ int  main()
     textbox.setScale(.4f,.15f);
     eb.setScale(.3f,.3f);
     cb.setScale(.3f,.3f);
-    boss.setScale(0.7f,0.7f);
+    boss.setScale(0.5f,0.5f);
     bosshead.setOrigin(64,64);
     ring.setOrigin(128,128);
     bship.setScale(1.2f,1.2f);
@@ -166,6 +166,8 @@ int  main()
         float bosstime=bossclock.getElapsedTime().asSeconds();
         float bossbtime=bossbullet.getElapsedTime().asSeconds();
         float locktime=bosslock.getElapsedTime().asSeconds();
+        float aidtime=aidclock.getElapsedTime().asSeconds();
+
         Event event;
         while(window.pollEvent(event))
         {
@@ -290,13 +292,13 @@ int  main()
             if(counte > hcounte)
                 hcounte=counte;
             counte=0;
-            if(fai=false){
+            if(fai==false){
             window.draw(gm);
 
             window.display();
             sleep(milliseconds(300));
             }
-             else if (fai=true)
+             else if (fai==true)
                 fai=false;
         }
         if(menu==false && pause1==false && life > 0 && !ins){
@@ -339,15 +341,15 @@ int  main()
 
             window.setTitle(title(life,counte));
             if(bigboss==false){
-                for(; ec1 < 5; ec1++){
+                for(; ec1 < 7; ec1++){
                     ee[ec1].x=randnum(ee,ec1,'x');
                     ee[ec1].y=randnum(ee,ec1,'y');
                     eeb[ec1].x=ee[ec1].x;
                     eeb[ec1].y=ee[ec1].y;
-                    ab[ec1].x=ee[ec1].x+250;
+                    ab[ec1].x=ee[ec1].x+220;
                     ab[ec1].y=ee[ec1].y;
                 }
-                for(ec2=1; ec2 < 5 ; ec2++){
+                for(ec2=1; ec2 < 7 ; ec2++){
                     ee[ec2].x-=5;
                     ab[ec2].x-=5;
                     if(eeb[ec2].x>1000 || ee[ec2].x<-20)
@@ -355,8 +357,8 @@ int  main()
                     else
                         eeb[ec2].x-=15;
                     if(ee[ec2].x<-400){
-                        ee[ec2].x=randnum(ee,5,'x');
-                        ee[ec2].y=randnum(ee,5,'y');
+                        ee[ec2].x=randnum(ee,7,'x');
+                        ee[ec2].y=randnum(ee,7,'y');
                         eeb[ec2].x=ee[ec2].x;
                         eeb[ec2].y=ee[ec2].y;
                     }
@@ -365,17 +367,22 @@ int  main()
                         eeb[ec2].y=ee[ec2].y;
                     }
                     if(ab[ec2].x<-300){
-                        ab[ec2].x=ee[ec2].x+250;
+                        ab[ec2].x=ee[ec2].x+220;
                         ab[ec2].y=ee[ec2].y;
                     }
                 }
-               // window.draw(aid1);
-                // if(Collision::PixelPerfectTest(aid1,bship)){
-                      //  life++;
-                       // aid1.setPosition(-1111,111);
+                window.draw(aid1);
+                 if(Collision::PixelPerfectTest(aid1,bship)){
+                        if(life<10)
+                            life++;
+                        aid1.setPosition(-1111,111);
 
-                    //}
-                for(int k=1; k < 5; k++){
+                    }
+                    if(aidtime>3)
+                    {
+                            aid1.setPosition(-1111,111);
+                    }
+                for(int k=1; k < 7; k++){
                     eh.setPosition(ee[k].x,ee[k].y);
                     eb.setPosition(eeb[k].x-10,eeb[k].y+30);
                     cb.setPosition(eeb[k].x-10,eeb[k].y+41);
@@ -398,10 +405,11 @@ int  main()
                             explosion=true;
                             exp.play();
                             bullets.erase(bullets.begin()+i);
-                            ee[k].x=randnum(ee,5,'x');
-                            ee[k].y=randnum(ee,5,'y');
+                            ee[k].x=randnum(ee,7,'x');
+                            ee[k].y=randnum(ee,7,'y');
                              if(counte%10==0){
                               aid1.setPosition(n,r);
+                               aidclock.restart();
                              }
 
 
@@ -414,10 +422,11 @@ int  main()
                             explosion4=true;
                             exp.play();
                             bullets.erase(bullets.begin()+i);
-                            ab[k].x=ee[k].x+250;
+                            ab[k].x=ee[k].x+220;
                             ab[k].y=ee[k].y;
                             if(counte%10==0){
                               aid1.setPosition(he,hehe);
+                              aidclock.restart();
                             }
 
 
@@ -439,8 +448,8 @@ int  main()
                         ex2=ee[k].y;
                         explosion1=true;
                         exp.play();
-                        ee[k].x=randnum(ee,5,'x');
-                        ee[k].y=randnum(ee,5,'y');
+                        ee[k].x=randnum(ee,7,'x');
+                        ee[k].y=randnum(ee,7,'y');
                         x=80,y=360;
                     }
                     if(Collision::PixelPerfectTest(boss,bship) ){
@@ -449,7 +458,7 @@ int  main()
                         XD1=ab[k].y;
                         explosion3=true;
                         exp.play();
-                        ab[k].x=ee[k].x+250;
+                        ab[k].x=ee[k].x+220;
                         ab[k].y=-1111;
                         x=80,y=360;
                     }
@@ -508,6 +517,7 @@ int  main()
                              sleep(milliseconds(2000));
                              life=0;
                              menu=true;
+                             fai=true;
                         }
                     }
                     if(Collision::PixelPerfectTest(ring,bullets[i]) ){
@@ -600,9 +610,9 @@ int  main()
                         auto ggg = bb[p].getPosition();
                         if(abs(slope[p]) > 2.3){
                             if(dir[p] < 0)
-                                ggg.x+=dir[p]+2.5;
+                                ggg.x+=dir[p]+3.5;
                             else
-                                ggg.x+=dir[p]-2.5;
+                                ggg.x+=dir[p]-3.5;
                         }
                         else
                             ggg.x+=dir[p];
@@ -628,15 +638,15 @@ int  main()
                         }
                     }
 
-                    if(bossbtime > .5){
+                    if(bossbtime > .3){
                         eb.setPosition(bx,by);
                         bb.push_back(eb);
                         slope.push_back((by-y)/(bx-x));
                         cc.push_back(y-(((by-y)/(bx-x))*x));
                         if(bx-x < 0)
-                            dir.push_back(4);
+                            dir.push_back(5);
                         else
-                            dir.push_back(-4);
+                            dir.push_back(-5);
                         bossbullet.restart();
                     }
                }
