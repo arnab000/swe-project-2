@@ -1,1 +1,2 @@
-# swe-project-2
+# Shoot-em All
+A simple space shooting game
